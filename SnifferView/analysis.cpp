@@ -10,7 +10,7 @@
 #include "PacketCache.h"
 
 //最大缓存封包数量
-static ULONGLONG gs_llMaxCount = 22110000;
+static ULONGLONG gs_llMaxCount = 481000;
 
 //HANDLE g_filter_lock = CreateMutexA(NULL, FALSE, NULL);
 //HANDLE g_show_lock = CreateMutexA(NULL, FALSE, NULL);
