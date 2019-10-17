@@ -1,6 +1,8 @@
 ### snifferview-封包嗅探分析工具
 码云git地址：https://gitee.com/lougd/snifferview.git
 
+github地址:https://github.com/lougd/snifferview.git
+
 编译完成的可执行文件: https://pan.baidu.com/s/1XapqLl7YgjkO5yhrNPqehg
 
 作者联系方式: qq:412776488 mail:lougdhr@126.com
