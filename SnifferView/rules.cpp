@@ -349,7 +349,7 @@ static BOOL WINAPI FilterRulesTcpLengthFun(IN OUT PacketContent *msg, IN FilterS
 {
 	unsigned short length = *((unsigned short *)param.c_str());
 	TCPHeader *tcp = (TCPHeader *)(msg->m_packet.c_str() + sizeof(IPHeader));
-	length += (sizeof(IPHeader) + tcp->get_tcp_header_length());
+	length += (unsigned short)(sizeof(IPHeader) + tcp->get_tcp_header_length());
 	return IsTrue(msg->m_packet.size(), sign, length);
 }
 

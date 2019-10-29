@@ -243,31 +243,32 @@ int InsertIntoNetstat(vector<int> &vos, int idex)
 }
 
 //将增加的网络连接加到展示列表中
-VOID NetstatusAdd(IN set<NetstatInfo> &add)
+static void _NetstatusAdd(IN const set<NetstatInfo> &add)
 {
-	set<NetstatInfo>::iterator itm;
+	set<NetstatInfo>::const_iterator itm;
 	vector<NetstatInfo>::reverse_iterator itk;
 	vector<int>::reverse_iterator itu;
 	int idex = 0;
 	bool raw = false;
 	for (itm = add.begin() ; itm != add.end() ; itm++)
 	{
-        itm->toString();
+        NetstatInfo info = *itm;
+        info.toString();
 		idex = s_cur_netstates.size();
 		raw = false;
 		for (itk = s_cur_netstates.rbegin() ; itk != s_cur_netstates.rend() ; itk++, idex--)
 		{
-			if ((*itk).m_Pid == (*itm).m_Pid)
+			if ((*itk).m_Pid == info.m_Pid)
 			{
 				raw = true;
-				s_cur_netstates.insert(s_cur_netstates.begin() + idex, *itm);
+				s_cur_netstates.insert(s_cur_netstates.begin() + idex, info);
 				break;
 			}
 		}
 
 		if (!raw)
 		{
-			s_cur_netstates.push_back(*itm);
+			s_cur_netstates.push_back(info);
 			idex = s_cur_netstates.size() - 1;
 		}
 
@@ -284,11 +285,11 @@ VOID NetstatusAdd(IN set<NetstatInfo> &add)
 			}
 		}
 
-		if (IsNetstatFilter(*itm))
+		if (IsNetstatFilter(info))
 		{
 			int itu = InsertIntoNetstat(s_cur_filter, idex);
 			//重绘ListCtrl新增的数据
-			InsertNetstatInfo(itu, *itm);
+			InsertNetstatInfo(itu, info);
 		}
 	}
 	return;
@@ -512,7 +513,7 @@ VOID RefushNetstat()
 		}
 		NetstatsCompare(s_org_tcp, lst, add, del);
 		s_org_tcp = lst;
-		NetstatusAdd(add);
+		_NetstatusAdd(add);
 		NetstatusDel(del);
 	}
 	add.clear();
@@ -534,7 +535,7 @@ VOID RefushNetstat()
 		}
 		NetstatsCompare(s_org_udp, lst, add, del);
 		s_org_udp = lst;
-		NetstatusAdd(add);
+		_NetstatusAdd(add);
 		NetstatusDel(del);
 	}
 }
