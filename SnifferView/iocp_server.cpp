@@ -213,7 +213,7 @@ bool IocpServer::run(ULONG addr, short port)
     }
 
     DWORD res = 1;
-    if(0 != ioctlsocket(sock, SIO_RCVALL, &res))        
+    if(0 != ioctlsocket(sock, SIO_RCVALL, &res))
     {
         return false;
     }
