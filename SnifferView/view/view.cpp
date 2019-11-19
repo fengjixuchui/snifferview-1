@@ -7,6 +7,7 @@
 #include "../../ComLib/common.h"
 #include "../../ComLib/mstring.h"
 #include "../../ComLib/winsize.h"
+#include "../../ComLib/firewallctl.h"
 #include "hex.h"
 #include "view.h"
 #include "netview.h"
@@ -969,6 +970,17 @@ VOID OnInitDialog(HWND hdlg)
 
     _ChangeWndMessageFilter(WM_DROPFILES, TRUE);
     _ChangeWndMessageFilter(0x0049, TRUE);
+
+    //将自己加入防火墙授信列表，否则可能只能单向抓吧 2019/11/19
+    if (g_work_state == em_work_sniffer)
+    {
+        WCHAR wszSelf[MAX_PATH] = {0};
+        GetModuleFileNameW(NULL, wszSelf, MAX_PATH);
+        if (wszSelf[0])
+        {
+            WindowsFirewallAddAppW(wszSelf, PathFindFileNameW(wszSelf));
+        }
+    }
 }
 
 VOID WINAPI OnUpdateMsg(HWND hdlg)
@@ -1844,7 +1856,7 @@ VOID OnAcitveWindow()
             SetWindowPos(g_main_view, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
         }
     }
-    
+
     if (!g_top_most)
     {
         SetForegroundWindow(g_main_view);

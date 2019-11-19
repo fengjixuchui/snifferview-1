@@ -286,15 +286,11 @@ int WINAPI WinMain(HINSTANCE m, HINSTANCE p, LPSTR cmd, int show)
                 } else {
                     dp(L"test2");
                 }
-
-                if (wszSelf[0])
-                {
-                    WindowsFirewallAddAppW(wszSelf, PathFindFileNameW(wszSelf));
-                }
+                #else //_DEBUG
+                g_work_state = em_work_sniffer;
+                ShowSnifferView();
                 #endif
             }
-            g_work_state = em_work_sniffer;
-            ShowSnifferView();
         } else if (em_work_sniffer == g_work_state)
         {
             ShowSnifferView();
